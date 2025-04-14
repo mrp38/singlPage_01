@@ -7,6 +7,14 @@
         * {
             box-sizing: border-box;
         }
+        .fade {
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .fade.out {
+            opacity: 0;
+        }
 
         html, body {
             margin: 0;
@@ -159,22 +167,49 @@
     
         async function init() {
             await loadMessages();
+
+            // Установить начальное изображение
+            const img = document.querySelector(".right img");
+            img.src = `images/${imageNames[0]}`;
         }
     
         function handleNo() {
-            if (messages.length === 0) return;
+            // if (messages.length === 0) return;
     
+            // const bubble = document.getElementById("bubble");
+            // const img = document.querySelector(".right img");
+    
+            // const col = Math.random() < 0.5 ? 0 : 1;
+            // const message = messages[currentRow][col];
+            // bubble.textContent = message;
+    
+            // const imageIndex = currentRow % imageNames.length;
+            // img.src = `images/${imageNames[imageIndex]}`;
+    
+            // currentRow = (currentRow + 1) % messages.length;
+            if (messages.length === 0) return;
+
             const bubble = document.getElementById("bubble");
             const img = document.querySelector(".right img");
-    
+
             const col = Math.random() < 0.5 ? 0 : 1;
             const message = messages[currentRow][col];
             bubble.textContent = message;
-    
+
+            // Анимация смены картинки
             const imageIndex = currentRow % imageNames.length;
-            img.src = `images/${imageNames[imageIndex]}`;
-    
+            const newSrc = `images/${imageNames[imageIndex]}`;
+
+            img.classList.add("out");
+
+            setTimeout(() => {
+                img.src = newSrc;
+                img.classList.remove("out");
+            }, 300); // время чуть меньше transition
+
             currentRow = (currentRow + 1) % messages.length;
+
+            // playClickSound(); // добавим сюда звук
         }
     
         function handleYes() {
