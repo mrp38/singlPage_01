@@ -8,7 +8,7 @@
             box-sizing: border-box;
         }
         .fade {
-            transition: opacity 3s ease;
+            transition: opacity 0.5s ease;
             opacity: 1;
         }
 
@@ -136,7 +136,7 @@
             <div class="bubble" id="bubble">
                 Hello my friend, today I brought you something interesting.
             </div>
-            <img src="images/character.png" alt="Character Sprite">
+            <img class="fade" src="images/character.png" alt="Character Sprite">
             <div class="buttons">
                 <button onclick="handleYes()">Yes</button>
                 <button onclick="handleNo()">No</button>
@@ -187,6 +187,7 @@
             // img.src = `images/${imageNames[imageIndex]}`;
     
             // currentRow = (currentRow + 1) % messages.length;
+
             if (messages.length === 0) return;
 
             const bubble = document.getElementById("bubble");
@@ -196,20 +197,28 @@
             const message = messages[currentRow][col];
             bubble.textContent = message;
 
-            // Анимация смены картинки
+            // Плавная смена изображения
             const imageIndex = currentRow % imageNames.length;
             const newSrc = `images/${imageNames[imageIndex]}`;
 
+            // 1. Убираем видимость
             img.classList.add("out");
 
-            setTimeout(() => {
+            // 2. Ждём завершения анимации (чтобы не прерывалась)
+            img.addEventListener("transitionend", function onTransition() {
+                // Сменим изображение, когда оно уже стало прозрачным
                 img.src = newSrc;
+
+                // Вернём видимость
                 img.classList.remove("out");
-            }, 300); // время чуть меньше transition
+
+                // Удалим обработчик после выполнения (иначе будет срабатывать многократно)
+                img.removeEventListener("transitionend", onTransition);
+            });
 
             currentRow = (currentRow + 1) % messages.length;
 
-            // playClickSound(); // добавим сюда звук
+            // playClickSound();
         }
     
         function handleYes() {
