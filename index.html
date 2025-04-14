@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            display: flex;
+            gap: 20px;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+
+        .left, .right {
+            flex: 1;
+            padding: 30px;
+            background-color: #e9ecef;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .left h2 {
+            margin: 0 0 10px;
+            font-size: 3rem;
+            color: #343a40;
+        }
+
+        .left img {
+            width: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .left p {
+            font-size: 2rem;
+            color: #495057;
+            margin-top: 15px;
+        }
+
+        .right .bubble {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 2rem;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .right img {
+            width: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .right .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .right button {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .right button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div>
+                <h2>Interesting Item</h2>
+                <a id="link" href="page2.html">
+                    <img src="images/todays_item.png" alt="Clickable Image">
+                </a>
+                <p>This is a brief description of the item. Click the image to learn more.</p>
+            </div>
+        </div>
+        <div class="right">
+            <div class="bubble" id="bubble">
+                Hello my friend, today I brought you something interesting.
+            </div>
+            <img src="images/character.png" alt="Character Sprite">
+            <div class="buttons">
+                <button onclick="handleYes()">Yes</button>
+                <button onclick="handleNo()">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let messages = [];
+        let currentRow = 0;
+    
+        const imageNames = [
+            'char01_01.png',
+            'char01_02.png',
+            'char01_03.png',
+            'char01_04.png',
+            'char01_05.png'
+        ];
+    
+        async function loadMessages() {
+            try {
+                const res = await fetch('messages.json');
+                messages = await res.json();
+            } catch (error) {
+                console.error('Failed to load messages:', error);
+            }
+        }
+    
+        async function init() {
+            await loadMessages();
+        }
+    
+        function handleNo() {
+            if (messages.length === 0) return;
+    
+            const bubble = document.getElementById("bubble");
+            const img = document.querySelector(".right img");
+    
+            const col = Math.random() < 0.5 ? 0 : 1;
+            const message = messages[currentRow][col];
+            bubble.textContent = message;
+    
+            const imageIndex = currentRow % imageNames.length;
+            img.src = `images/${imageNames[imageIndex]}`;
+    
+            currentRow = (currentRow + 1) % messages.length;
+        }
+    
+        function handleYes() {
+            const link = document.getElementById("link");
+            window.location.href = link.href;
+        }
+    
+        init();
+    </script>
+    
+</body>
+</html>
