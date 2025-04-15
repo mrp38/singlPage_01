@@ -225,6 +225,7 @@
     <script>
         let messages = [];
         let currentRow = 0;
+        let clickCount = 0;
     
         const imageNames = [
             'char01_01.png',
@@ -289,9 +290,7 @@
             // 🧾 Выбор и отображение сообщения
             const message = messages[currentRow][col];
             bubble.textContent = message;
-            // const row = messages[currentRow];
-            // const message = row && row[col] ? row[col] : "[пусто]";
-            // bubble.textContent = message;
+            
 
             // 🎲 Выбор случайного изображения
             const imageIndex = Math.floor(Math.random() * imageNames.length);
