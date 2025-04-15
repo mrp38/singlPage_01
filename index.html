@@ -296,19 +296,27 @@
             const newSrc = `images/${imageNames[imageIndex]}`;
 
             // Плавная смена изображения
-            img.classList.remove("out");
-            void img.offsetWidth; // заставляет браузер пересчитать стили
+            // img.classList.remove("out");
+            // void img.offsetWidth; // заставляет браузер пересчитать стили
+            // img.classList.add("out");
+
+            // img.addEventListener("transitionend", function onTransition() {
+            //     img.src = newSrc;
+
+            //     // Форсируем fade-in
+            //     void img.offsetWidth;
+            //     img.classList.remove("out");
+
+            //     img.removeEventListener("transitionend", onTransition);
+            // });
             img.classList.add("out");
 
-            img.addEventListener("transitionend", function onTransition() {
-                img.src = newSrc;
+            setTimeout(() => {
+                const imageIndex = Math.floor(Math.random() * imageNames.length);
+                img.src = `images/${imageNames[imageIndex]}`;
 
-                // Форсируем fade-in
-                void img.offsetWidth;
                 img.classList.remove("out");
-
-                img.removeEventListener("transitionend", onTransition);
-            });
+            }, 200); // Время должно совпадать с transition в CSS
 
             currentRow = (currentRow + 1) % messages.length;
 
