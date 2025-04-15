@@ -164,6 +164,10 @@
             }
         }
 
+        .bubble.animate-bubble {
+            animation: bubblePop 0.4s ease-out;
+        }
+
         .bubble {
             animation: bubblePop 0.4s ease-out;
         }
@@ -248,40 +252,16 @@
         }
     
         function handleNo() {
-            
-            // if (messages.length === 0) return;
-
-            // const bubble = document.getElementById("bubble");
-            // const img = document.querySelector(".right img");
-
-            // const col = Math.random() < 0.5 ? 0 : 1;
-            // const message = messages[currentRow][col];
-            // bubble.textContent = message;
-
-            // // Плавная смена изображения
-            // const imageIndex = currentRow % imageNames.length;
-            // const newSrc = `images/${imageNames[imageIndex]}`;
-
-            // // 1. Убираем видимость
-            // img.classList.add("out");
-
-            // // 2. Ждём завершения анимации (чтобы не прерывалась)
-            // img.addEventListener("transitionend", function onTransition() {
-            //     // Сменим изображение, когда оно уже стало прозрачным
-            //     img.src = newSrc;
-
-            //     // Вернём видимость
-            //     img.classList.remove("out");
-
-            //     // Удалим обработчик после выполнения (иначе будет срабатывать многократно)
-            //     img.removeEventListener("transitionend", onTransition);
-            // });
-
+                        
             // currentRow = (currentRow + 1) % messages.length;
             if (messages.length === 0) return;
 
             const bubble = document.getElementById("bubble");
             const img = document.querySelector(".right img");
+
+            bubble.classList.remove("animate-bubble");
+            void bubble.offsetWidth; // ← хак: принудительно пересчитывает стиль
+            bubble.classList.add("animate-bubble");
 
             const col = Math.random() < 0.5 ? 0 : 1;
             const message = messages[currentRow][col];
