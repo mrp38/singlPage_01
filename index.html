@@ -290,7 +290,6 @@
             // 🧾 Выбор и отображение сообщения
             const message = messages[currentRow][col];
             bubble.textContent = message;
-            
 
             // 🎲 Выбор случайного изображения
             const imageIndex = Math.floor(Math.random() * imageNames.length);
@@ -306,7 +305,7 @@
 
             currentRow = (currentRow + 1) % messages.length;
 
-            console.log("Click:", clickCount, "→ row:", currentRow, "col:", col, "message:", messages[currentRow][col]);
+            console.log("Image index:", imageIndex, " → ", newSrc);
 
             
         }
