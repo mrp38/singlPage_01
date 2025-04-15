@@ -26,9 +26,17 @@
             height: 100%;
         }
         body {
+            margin: 0;
+            padding: 0;
+            background-color: hwb(302 20% 61%);
+            font-family: Arial, sans-serif;
+        }
+
+        .page {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
         }
 
@@ -41,6 +49,19 @@
             background-color: hsl(115, 63%, 35%);
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             flex-wrap: wrap;
+        }
+        
+        .extra-text {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px 30px;
+            background-color: #fff5cc;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            color: #333;
+            line-height: 1.6;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
         }
 
         .left, .right {
@@ -73,6 +94,7 @@
         }
 
         .right .bubble {
+            position: relative; /* нужно для хвостика */
             background-color: #fff;
             padding: 15px;
             border-radius: 10px;
@@ -84,6 +106,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .bubble::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            right: 150px; /* вместо left: 50% */
+            transform: translateX(0);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid #fff;
         }
 
         .right img {
@@ -115,6 +150,25 @@
             background-color: #0056b3;
         }
 
+        @keyframes bubblePop {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .bubble {
+            animation: bubblePop 0.4s ease-out;
+        }
+        
+
         @media (max-width: 900px) {
             .container {
                 flex-direction: column;
@@ -123,27 +177,46 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="left">
-            <div>
-                <h2>Interesting Item</h2>
-                <a id="link" href="page2.html"> // ссылку класть сюда
-                    <img src="images/todays_item.png" alt="Clickable Image">
-                </a>
-                <p>This is a brief description of the item. Click the image to learn more.</p>
+    <div class="page">
+        <div class="container">
+            <div class="left">
+                <div>
+                    <h2>Interesting Item</h2>
+                    <a id="link" href="page2.html"> // ссылку класть сюда
+                        <img src="images/todays_item.png" alt="Clickable Image">
+                    </a>
+                    <p>This is a brief description of the item. Click the image to learn more.</p>
+                </div>
+            </div>
+            <div class="right">
+                <div class="bubble" id="bubble">
+                    Hello my friend, today I brought you something interesting.
+                </div>
+                <img class="fade" src="images/character.png" alt="Character Sprite">
+                <div class="buttons">
+                    <button onclick="handleYes()">Go to</button>
+                    <button onclick="handleNo()">Stay</button>
+                </div>
             </div>
         </div>
-        <div class="right">
-            <div class="bubble" id="bubble">
-                Hello my friend, today I brought you something interesting.
-            </div>
-            <img class="fade" src="images/character.png" alt="Character Sprite">
-            <div class="buttons">
-                <button onclick="handleYes()">Yes</button>
-                <button onclick="handleNo()">No</button>
-            </div>
+        <div class="extra-text">
+            <h2>Interesting Item</h2>
+
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget co...
+                (ещё 9 строк текста здесь — просто для заглушки).<br>
+                Vivamus consequat, eros sit amet ultricies tincidunt, lorem justo fac...
+                Suspendisse potenti. Nunc a fermentum magna. Sed in quam nec risus l...
+                Integer suscipit lorem a tortor sodales, sed vestibulum ipsum convallis.
+                Proin rutrum orci non mi porta, at efficitur risus scelerisque.
+                Fusce nec sem vitae nisl malesuada tincidunt non ut erat.
+                Morbi nec tincidunt purus. Nulla quis tellus in est faucibus elementum.
+                Aenean nec justo vel lorem lacinia iaculis a ut quam.
+            </p>
+    
         </div>
     </div>
+
 
     <script>
         let messages = [];
