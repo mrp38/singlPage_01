@@ -296,10 +296,17 @@
             const newSrc = `images/${imageNames[imageIndex]}`;
 
             // Плавная смена изображения
+            img.classList.remove("out");
+            void img.offsetWidth; // заставляет браузер пересчитать стили
             img.classList.add("out");
+
             img.addEventListener("transitionend", function onTransition() {
                 img.src = newSrc;
+
+                // Форсируем fade-in
+                void img.offsetWidth;
                 img.classList.remove("out");
+
                 img.removeEventListener("transitionend", onTransition);
             });
 
